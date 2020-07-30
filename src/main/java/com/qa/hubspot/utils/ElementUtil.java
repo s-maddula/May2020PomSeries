@@ -17,12 +17,16 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class ElementUtil {
+import com.qa.hubspot.base.BasePage;
+
+public class ElementUtil extends BasePage {
 	
 	private WebDriver driver;
+	JavaScriptUtil jsutil;
 
 	public ElementUtil(WebDriver driver) {
 		this.driver = driver;
+		jsutil = new JavaScriptUtil(this.driver);
 	}
 
 	/**
@@ -34,8 +38,12 @@ public class ElementUtil {
 		WebElement element = null;
 		try {
 			element = driver.findElement(locator);
+		if(	prop.getProperty("highlight").equalsIgnoreCase("yes")){
+		    jsutil.flash(element);
+		}
+			System.out.println("webElement is created successfully..." + locator);
 		} catch (Exception e) {
-			System.out.println("element could not be created..." + locator);
+			System.out.println("some exception got occured with this locator:" + locator);
 		}
 
 		return element;

@@ -61,31 +61,23 @@ pipeline {
           }
         }
 
-        stage('safari') {
-          steps {
-            sh 'mvn test -Denv=qa -Dbrowser=safari'
-          }
+      }
+    }
+
+    stage('Publish reports') {
+      steps {
+        script {
+          allure([
+            includeProperties: false,
+            jdk: '',
+            properties: [],
+            reportBuildPolicy: 'ALWAYS',
+            results: [[path: '/allure-results']]
+          ])
         }
 
       }
     }
-
-    
-    stage('Publish reports') {
-           steps {
-                script {
-                    allure([
-                        includeProperties: false,
-                        jdk: '',
-                        properties: [],
-                        reportBuildPolicy: 'ALWAYS',
-                        results: [[path: '/allure-results']]
-                    ])
-                }
-            }
-        }
-    
-    
 
   }
   tools {
